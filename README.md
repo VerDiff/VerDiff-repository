@@ -25,6 +25,7 @@ This repository contains data and code for our study on uncovering correctness i
 We have provided intermediate data results in the `data` folder. If you want to reproduce the result from scratch, we also provide code for this purpose. Please follow the steps below.
 
 - Step 1: Build the data collector
+  
   We provide code in the `collector` folder for building the data collector tool. In this tool, we instrument and log EVM instructions like `SELFDESTRUCT` and `SSTORE` to collect basic data. For example, we log the Blockhight, Contract address, Slot, and Value for `SSTORE` instructions, e.g., `common.GlobalSlotWatcher.ChWaitTimes <- *verdiffCollectorslot.NewSLogData(log_type, log_blockheight, log_contractaddress, log_slot, log_slotvalue)`. In this tool, we use  `encoding/gob` to serialize the collected data and store them in `compressed_erigon_slotdata` folder. 
   ```go
   func opSstore(pc *uint64, interpreter *EVMInterpreter, scope *ScopeContext) ([]byte, error) {
@@ -71,10 +72,12 @@ We have provided intermediate data results in the `data` folder. If you want to 
   }
   ```
 - Step 2: Data collection
+  
   The tool is built on top of [erigon](https://github.com/erigontech/erigon), and collects data during the normal node synchronization process. You may need to upgrade the main branch of erigon to the latest stable version to ensure the capability for blockchain synchronization.
   - This process may take a long time (e.g., several weeks) depending on your hardware and network conditions. 
   - You need to prepare sufficient disk space (e.g., more than 8 TB) to store the blockchain data and the collected data. The collected data may take more than 1 TB of disk space.
 - Step 3: Data extraction
+  
   We provide code in the `extractor_results.go` and `extractor_contracts.go` for extracting the collected data. The extracted data are used for further analysis and verification. You can check your results with our intermediate data in the `data` folder.
 
 
